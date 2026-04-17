@@ -16,6 +16,8 @@ import HomemakerOrders from "../pages/homemaker/HomemakerOrders";
 import ManageUsers from "../pages/admin/ManageUsers";
 import ManageOrders from "../pages/admin/ManageOrders";
 import ManageHomemakers from "../pages/admin/ManageHomemakers";
+import AvailableOrders from "../pages/rider/AvailableOrders";
+import MyRiderOrders from "../pages/rider/MyRiderOrders";
 
 function AppRoutes() {
   return (
@@ -35,6 +37,8 @@ function AppRoutes() {
       <Route path="/orders" element={<Orders />} />
       <Route path="/homemaker/orders" element={<HomemakerOrders />} />
       <Route path="/admin/users" element={<ManageUsers />} />
+      <Route path="/rider/available-orders" element={<AvailableOrders />} />
+<Route path="/rider/my-orders" element={<MyRiderOrders />} />
 <Route path="/admin/orders" element={<ManageOrders />} />
 <Route path="/admin/homemakers" element={<ManageHomemakers />} />
     </Routes>

@@ -37,7 +37,10 @@ def get_all_orders(current_user):
             "total_amount": float(order.total_amount),
             "delivery_address": order.delivery_address,
             "status": order.status,
-            "created_at": order.created_at.isoformat()
+            "created_at": order.created_at.isoformat(),
+            "payment_method": order.payment_method,
+            "payment_status": order.payment_status,
+            "transaction_id": order.transaction_id,
         }
         for order in orders
     ]), 200

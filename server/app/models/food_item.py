@@ -14,6 +14,7 @@ class FoodItem(db.Model):
     diet_type = db.Column(db.String(50), nullable=False)
     disease_tag = db.Column(db.String(100))
     image_url = db.Column(db.Text)
+    rating = db.Column(db.Float, default=0)
     is_available = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

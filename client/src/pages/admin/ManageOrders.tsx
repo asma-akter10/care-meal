@@ -42,6 +42,28 @@ function ManageOrders() {
 
                   <p className="text-sm text-slate-500">Customer ID: {order.customer_id}</p>
                   <p className="text-sm text-slate-500 mt-1">{order.delivery_address}</p>
+
+                  <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-sm font-medium text-slate-800">Payment</p>
+                    <p className="mt-1 text-sm text-slate-600">
+                      Method: {order.payment_method === "cod"
+                        ? "Cash on Delivery"
+                        : order.payment_method === "bkash"
+                        ? "bKash"
+                        : order.payment_method === "nagad"
+                        ? "Nagad"
+                        : "Card"}
+                    </p>
+                    <p className="text-sm text-slate-600">
+                      Status: {order.payment_status}
+                    </p>
+                    {order.transaction_id ? (
+                      <p className="text-sm text-slate-600">
+                        Transaction ID: {order.transaction_id}
+                      </p>
+                    ) : null}
+                  </div>
+
                   <p className="mt-3 font-semibold text-purple-600">৳{order.total_amount}</p>
                 </div>
               ))}

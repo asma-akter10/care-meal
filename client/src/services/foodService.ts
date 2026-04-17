@@ -1,7 +1,10 @@
 import api from "./api";
 
-export const getFoods = async () => {
-  const response = await api.get("/foods/");
+export const getFoods = async (params?: {
+  search?: string;
+  diet_type?: string;
+}) => {
+  const response = await api.get("/foods/", { params });
   return response.data;
 };
 
@@ -18,6 +21,7 @@ export const createFood = async (payload: {
   diet_type: string;
   disease_tag?: string;
   image_url?: string;
+  rating?: number;
 }) => {
   const response = await api.post("/foods/", payload);
   return response.data;

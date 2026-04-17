@@ -2,22 +2,26 @@ import jwt
 from datetime import datetime, timedelta
 from flask import current_app
 
-def create_token(user):
+
+def create_access_token(user_id):
     payload = {
-        "user_id": user.id,
-        "email": user.email,
-        "role": user.role,
-        "exp": datetime.utcnow() + timedelta(days=7)
+        "user_id": user_id,
+        "exp": datetime.utcnow() + timedelta(days=1)
     }
-    return jwt.encode(
+
+    token = jwt.encode(
         payload,
-        current_app.config["JWT_SECRET_KEY"],
+        current_app.config["SECRET_KEY"],
         algorithm="HS256"
     )
 
+    return token
+
+
 def decode_token(token):
-    return jwt.decode(
+    payload = jwt.decode(
         token,
-        current_app.config["JWT_SECRET_KEY"],
+        current_app.config["SECRET_KEY"],
         algorithms=["HS256"]
     )
+    return payload

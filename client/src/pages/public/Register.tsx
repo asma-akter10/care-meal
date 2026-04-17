@@ -10,6 +10,7 @@ function Register() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     role: "customer",
   });
@@ -26,7 +27,7 @@ function Register() {
 
   return (
     <MainLayout>
-      <div className="bg-[#FAFAFF] min-h-screen flex items-center justify-center px-4">
+      <div className="bg-[#FAFAFF] min-h-screen flex items-center justify-center px-4 py-10">
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-sm bg-white border border-slate-200 p-8 rounded-2xl shadow-sm"
@@ -54,6 +55,15 @@ function Register() {
           />
 
           <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            className="w-full mb-4 px-4 py-3 border border-slate-200 rounded-xl bg-white text-slate-800 placeholder:text-slate-400 outline-none"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          />
+
+          <input
             type="password"
             name="password"
             placeholder="Password"
@@ -70,11 +80,12 @@ function Register() {
           >
             <option value="customer">Customer</option>
             <option value="homemaker">Homemaker</option>
+            <option value="rider">Rider</option>
           </select>
 
           <button
             type="submit"
-            className="w-full border border-purple-600 text-purple-600 py-3 rounded-xl font-medium"
+            className="w-full border border-purple-600 text-purple-600 py-3 rounded-xl font-medium hover:bg-purple-50 transition"
           >
             Register
           </button>

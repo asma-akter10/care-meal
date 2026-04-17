@@ -15,16 +15,26 @@ def create_order(current_user):
     total_amount = data.get("total_amount")
     delivery_address = data.get("delivery_address", "").strip()
     note = data.get("note", "").strip()
+    payment_method = data.get("payment_method", "cod").strip()
+    transaction_id = data.get("transaction_id")
 
     if not items or total_amount is None or not delivery_address:
         return jsonify({"message": "Items, total amount, and delivery address are required"}), 400
+
+    if payment_method not in ["cod", "online"]:
+        return jsonify({"message": "Invalid payment method"}), 400
+
+    payment_status = "paid" if payment_method == "online" else "pending"
 
     order = Order(
         customer_id=current_user.id,
         total_amount=total_amount,
         delivery_address=delivery_address,
         note=note,
-        status="pending"
+        status="pending",
+        payment_method=payment_method,
+        payment_status=payment_status,
+        transaction_id=transaction_id
     )
 
     db.session.add(order)
@@ -61,10 +71,20 @@ def get_my_orders(current_user):
             "note": order.note,
             "status": order.status,
             "created_at": order.created_at.isoformat(),
-            "items_count": len(order.items)
+            "items_count": len(order.items),
+            "payment_method": order.payment_method,
+            "payment_status": order.payment_status,
+            "transaction_id": order.transaction_id,
+            "rider": {
+                "id": order.rider.id,
+                "name": order.rider.name,
+                "phone": order.rider.phone,
+            } if order.rider else None,  
         })
 
     return jsonify(result), 200
+
+
 @order_bp.route("/homemaker", methods=["GET"])
 @token_required
 @roles_required("homemaker")

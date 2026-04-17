@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout";
 import { useAuth } from "../../hooks/useAuth";
+import { getRoleRedirectPath } from "../../utils/roleRedirect";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,10 +18,10 @@ function Login() {
 
     const user = await login(form.email, form.password);
 
-    if (user) {
-      navigate("/");
-    }
-  };
+      if (user) {
+        navigate(getRoleRedirectPath(user.role));
+      }
+        };
 
   return (
     <MainLayout>

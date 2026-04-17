@@ -4,9 +4,9 @@ import Footer from "../components/common/Footer";
 
 function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-base-100">
+    <div className="min-h-screen bg-[#FAFAFF] flex flex-col">
       <Navbar />
-      <main>{children}</main>
+      <main className="flex-1 bg-[#FAFAFF]">{children}</main>
       <Footer />
     </div>
   );

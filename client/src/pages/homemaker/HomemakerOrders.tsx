@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import { getHomemakerOrders, updateOrderStatus } from "../../services/orderService";
+import toast from "react-hot-toast";
 
 function HomemakerOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -15,9 +16,34 @@ function HomemakerOrders() {
   }, []);
 
   const handleUpdate = async (id: number, status: string) => {
-    await updateOrderStatus(id, status);
-    loadOrders();
+    try {
+      await updateOrderStatus(id, status);
+      toast.success("Order status updated");
+      loadOrders();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update order status");
+    }
   };
+
+  const formatStatus = (status: string) => {
+    switch (status) {
+      case "assigned_to_rider":
+        return "Assigned to Rider";
+      case "ready_for_pickup":
+        return "Ready for Pickup";
+      case "on_the_way":
+        return "On the Way";
+      default:
+        return status.charAt(0).toUpperCase() + status.slice(1);
+    }
+  };
+
+  const canAccept = (status: string) => status === "pending";
+  const canReject = (status: string) => status === "pending";
+  const canCook = (status: string) =>
+    status === "accepted" || status === "assigned_to_rider";
+  const canReady = (status: string) => status === "cooking";
 
   return (
     <MainLayout>
@@ -34,41 +60,59 @@ function HomemakerOrders() {
                 className="bg-white p-5 rounded-2xl border border-slate-100"
               >
                 <div className="flex justify-between mb-2">
-                  <p className="font-semibold">Order #{order.id}</p>
-                  <span className="text-purple-600">{order.status}</span>
+                  <p className="font-semibold text-slate-900">Order #{order.id}</p>
+                  <span className="text-purple-600">{formatStatus(order.status)}</span>
                 </div>
 
-                <p className="text-sm text-slate-500">
-                  ৳{order.total_amount}
-                </p>
+                <p className="text-sm text-slate-500">৳{order.total_amount}</p>
 
-                <div className="mt-4 flex gap-2">
+                <div className="mt-4 flex gap-2 flex-wrap">
                   <button
                     onClick={() => handleUpdate(order.id, "accepted")}
-                    className="px-3 py-1 border border-green-400 text-green-600 rounded"
+                    disabled={!canAccept(order.status)}
+                    className={`px-3 py-1 rounded border ${
+                      canAccept(order.status)
+                        ? "border-green-400 text-green-600"
+                        : "border-slate-200 text-slate-300 cursor-not-allowed"
+                    }`}
                   >
                     Accept
                   </button>
 
                   <button
                     onClick={() => handleUpdate(order.id, "rejected")}
-                    className="px-3 py-1 border border-red-400 text-red-600 rounded"
+                    disabled={!canReject(order.status)}
+                    className={`px-3 py-1 rounded border ${
+                      canReject(order.status)
+                        ? "border-red-400 text-red-600"
+                        : "border-slate-200 text-slate-300 cursor-not-allowed"
+                    }`}
                   >
                     Reject
                   </button>
 
                   <button
                     onClick={() => handleUpdate(order.id, "cooking")}
-                    className="px-3 py-1 border border-yellow-400 text-yellow-600 rounded"
+                    disabled={!canCook(order.status)}
+                    className={`px-3 py-1 rounded border ${
+                      canCook(order.status)
+                        ? "border-yellow-400 text-yellow-600"
+                        : "border-slate-200 text-slate-300 cursor-not-allowed"
+                    }`}
                   >
                     Cooking
                   </button>
 
                   <button
-                    onClick={() => handleUpdate(order.id, "delivered")}
-                    className="px-3 py-1 border border-purple-400 text-purple-600 rounded"
+                    onClick={() => handleUpdate(order.id, "ready_for_pickup")}
+                    disabled={!canReady(order.status)}
+                    className={`px-3 py-1 rounded border ${
+                      canReady(order.status)
+                        ? "border-blue-400 text-blue-600"
+                        : "border-slate-200 text-slate-300 cursor-not-allowed"
+                    }`}
                   >
-                    Delivered
+                    Ready for Pickup
                   </button>
                 </div>
               </div>

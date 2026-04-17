@@ -12,6 +12,7 @@ import type { User } from "../types/user";
 interface RegisterPayload {
   name: string;
   email: string;
+  phone: string;
   password: string;
   role: string;
 }

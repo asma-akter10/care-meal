@@ -3,6 +3,7 @@ import api from "./api";
 export const registerUser = async (payload: {
   name: string;
   email: string;
+  phone: string;
   password: string;
   role: string;
 }) => {

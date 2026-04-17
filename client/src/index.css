@@ -3,4 +3,19 @@
 
 body {
   font-family: Arial, sans-serif;
+}@import "tailwindcss";
+@plugin "daisyui";
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fafaff;
+  color: #0f172a;
+}
+
+body {
+  font-family: Arial, sans-serif;
 }
