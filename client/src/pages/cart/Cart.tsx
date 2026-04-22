@@ -27,6 +27,8 @@ function Cart() {
   const [cardCvv, setCardCvv] = useState("");
 
   const isOnlinePayment = paymentMethod !== "cod";
+  const DELIVERY_CHARGE = 50;
+const grandTotal = totalAmount + DELIVERY_CHARGE;
 
   const resetPaymentFields = () => {
     setPaymentPhone("");
@@ -43,7 +45,7 @@ function Cart() {
 
       await createOrder({
         items,
-        total_amount: totalAmount,
+        total_amount: grandTotal,
         delivery_address: deliveryAddress,
         note,
         payment_method: paymentMethod,
@@ -381,6 +383,15 @@ function Cart() {
                       <span>Items</span>
                       <span>{items.length}</span>
                     </div>
+                    <div className="flex items-center justify-between text-sm text-slate-600">
+  <span>Subtotal</span>
+  <span>৳{totalAmount}</span>
+</div>
+
+<div className="flex items-center justify-between text-sm text-slate-600">
+  <span>Delivery Charge</span>
+  <span>৳{DELIVERY_CHARGE}</span>
+</div>
 
                     <div className="flex items-center justify-between text-sm text-slate-600">
                       <span>Payment</span>
@@ -400,7 +411,7 @@ function Cart() {
                     <div className="flex items-center justify-between">
                       <span className="text-slate-900 font-medium">Total</span>
                       <span className="text-2xl font-bold text-purple-600">
-                        ৳{totalAmount}
+                        ৳{grandTotal}
                       </span>
                     </div>
                   </div>
@@ -483,7 +494,7 @@ function Cart() {
             >
               <p className="text-sm text-slate-500">Amount to pay</p>
               <p className="mt-1 text-3xl font-bold text-slate-900">
-                ৳{totalAmount}
+                ৳{grandTotal}
               </p>
             </div>
 
